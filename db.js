@@ -1,6 +1,10 @@
 var mongoose=require('mongoose')
+var bcrypt=require('bcrypt-nodejs')
 //connect to the DB
-mongoose.connect('mongodb://localhost:27017/userModel')
+mongoose.Promise=global.Promise
+mongoose.connect('mongodb://localhost/userMd',{
+	useMongoClient:true
+})
 //mongoose.connect(process.env.MONGODB_URL)
 .then(()=>{
 	console.log('connected')
@@ -9,23 +13,22 @@ mongoose.connect('mongodb://localhost:27017/userModel')
 	console.log(err)
 })
 var userschema=new mongoose.Schema({
-	name:{
+	username:{
 		type:String,
 		required:true
-	},
-	email:{
-		type:String,
-		required:true,
-		////validate:[isEmail,'please enter a valid Email']
 	},
 	password:{
 		type:String,
 		required:true//,'please enter password'],
-	},
-	date:{
-		type:Date,
-		default:Date.now
 	}
 })
-var User=mongoose.model('users',userschema)
+
+userschema.methods.hashPassword=function(password){
+	return bcrypt.hashSync(password,bcrypt.genSaltSync(10))
+}
+userschema.methods.comparepassword=function(password,hash){
+	return bcrypt.compareSync(password,hash)
+}
+const User=mongoose.model('user',userschema)
+
 module.exports=User

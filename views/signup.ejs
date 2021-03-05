@@ -4,18 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signup</title>
-<form method="post" action="/signup">
+<form method="post" action="auth/signup">
 <h1>Signup</h1>
 <label>name</label><br>
-<input type="text" name="name" required><br>
+<input type="text" name="username" required><br>
 <label>Email</label><br>
 <input type="text" name="email" required><br>
 <div class="email error"></div><br>
 <label for="password">password</label><br>
 <input type="password" name="password" required><br>
-<label for="password2">password</label><br>
-<input type="password" name="password2" required>
-<div class="password error"><br>
 </div>
 <button>Sign Up</button>
 </form>
