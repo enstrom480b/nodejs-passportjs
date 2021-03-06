@@ -1,17 +1,14 @@
 var mongoose=require('mongoose')
 var bcrypt=require('bcrypt-nodejs')
 //connect to the DB
-mongoose.Promise=global.Promise
-mongoose.connect('mongodb://localhost/passportdb',{
-	useMongoClient:true
-})
+//mongoose.connect('mongodb://localhost/passportdb')
 //mongoose.connect(process.env.MONGODB_URL)
-.then(()=>{
-	console.log('connected')
-})
-.catch((err)=>{
-	console.log(err)
-})
+//.then(()=>{
+//	console.log('connected')
+//})
+//.catch((err)=>{
+//	console.log(err)
+//})
 var userschema=new mongoose.Schema({
 	username:{
 		type:String,

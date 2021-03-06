@@ -1,7 +1,7 @@
 var mongoose=require('mongoose')
 var bcrypt=require('bcryptjs')
 //connect to the DB
-mongoose.connect('mongodb://localhost/loginapp')
+mongoose.connect('mongodb://localhost/loginapp',{useNewUrlParser:true,useUnifiedTopology:true})
 //mongoose.connect(process.env.MONGODB_URL)
 
 var userschema= mongoose.Schema({

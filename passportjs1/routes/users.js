@@ -13,10 +13,7 @@ router.get('/login',function(req,res){
 	res.render('login')
 })
 
-router.get('/login',function(req,res){
-	
-	res.render('login')
-})
+
 
 router.post('/register',function(req,res){
 	
@@ -27,21 +24,36 @@ router.post('/register',function(req,res){
 	var password=req.body.password
 	var password2=req.body.password2
 	
-	
+	req.checkBody('name','Name is required').notEmpty()
+	req.checkBody('email','email is required').notEmpty()
+	req.checkBody('email','email is required').isEmail()
+	req.checkBody('username','username is required').notEmpty()
+	req.checkBody('password','password is required').notEmpty()
+	req.checkBody('password2','passwords do not match').equals(req.body.password)
+
+	var errors=req.validationErrors();
+	if(errors)
+	{
+		res.render('register',{
+			errors:errors
+		})
+	}else{
+		
 	var newUser=new User({
 		name:name,
 		email:email,
 		username:username,
 		password:password
 	})
+	}
 	User.createUser(newUser,function(err,user){
-		if(err)
-		throw err
+		if(err)throw err
 		console.log(user,'success')
-	})
+})	
+	req.flash('success_msg','you are registered and can now login')
 	res.redirect('/users/login')
 	
-})
+	})
 passport.use(new localstrategy(
 function(username,password,done){
 	User.getuserbyusername(username,function(err,user){
@@ -87,4 +99,10 @@ router.post('/login',passport.authenticate('local',{
 }))
 
 
+
+router.get('/logout',function(req,res){
+	req.logout()
+	req.flash('success_msg','you are logged out')
+	res.redirect('/users/login')
+})
 module.exports=router
